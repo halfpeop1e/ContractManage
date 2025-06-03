@@ -41,12 +41,12 @@ function setStage(stage: string) {
 
 const fetchAllUsers = async () => {
   try {
-    const response = await axiosInstance.get('/user');
-    if (Array.isArray(response.data)) {
-      userStore.users = response.data;
-      allUsers.value = response.data;
+    const response = await axiosInstance.get('/user/alldetail');
+    if (Array.isArray(response.data.data)) {
+      userStore.users = response.data.data;
+      allUsers.value = response.data.data;
     } else {
-      console.error('接口返回的不是数组:', response.data);
+      console.error('接口返回的不是数组:', response.data.data);
     }
   } catch (err) {
     console.error('获取用户失败:', err);

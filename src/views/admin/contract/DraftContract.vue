@@ -43,21 +43,23 @@ const submitForm = async () => {
     const creatorId = localStorage.getItem('userId')
     const formData = new FormData()
     //合同的code由后端生成
-    formData.append('name', contractName.value)
-    formData.append('customer', customerName.value)
-    formData.append('beginDate', startDate.value)
-    formData.append('endDate', endDate.value)
+    formData.append('contractname', contractName.value)
+    formData.append('customername', customerName.value)
+    formData.append('starttime', startDate.value)
+    formData.append('endtime', endDate.value)
     formData.append('content', content.value)
-    formData.append('drafter', creatorId)
-    formData.append('status', '待会签') 
+    // formData.append('drafter', creatorId)
+    // formData.append('status', '待会签') 
     if (file.value) {
       formData.append('file', file.value)
     }
 
     try {
       isLoading.value = true
-      const response = await axiosInstance.post('/add-draft', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const response = await axiosInstance.post('/draft', formData, {
+        headers: { 'Content-Type': 'multipart/form-data',
+          'Authorization': localStorage.getItem('token') || ''
+         }
       })
 
       if (response.status !== 200) {

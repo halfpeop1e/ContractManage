@@ -10,7 +10,7 @@ const errorMessage = ref('')
 import axios from 'axios'
 const login = async () => {
   try {
-    const response = await axios.post('https://m1.apifoxmock.com/m1/6167810-5859931-default/login', {
+    const response = await axios.post('http://localhost:4545/user/login', {
       username: username.value,
       password: password.value
     })
@@ -18,11 +18,12 @@ const login = async () => {
 
     if (response.status === 200 ) {
       // 将用户ID存入localStorage
-      localStorage.setItem('userId', response.data.name);
-      const role = response.data.role
-      const permission = response.data.permission
-      const authorized =response.data.authorized
-      const user = { username: response.data.name, role, permission }
+      localStorage.setItem('userId', response.data.data.name);
+      localStorage.setItem('token',response.data.data.authorized);
+      const role = response.data.data.role
+      const permission = response.data.data.permission
+      const authorized =response.data.data.authorized
+      const user = { username: response.data.data.name, role, permission }
       localStorage.setItem('user', JSON.stringify(user))
       console.log(authorized)
       if (role === 'newuser') {
@@ -31,7 +32,7 @@ const login = async () => {
         router.push(role === 'admin' ? '/admin/contract' : '/operator/contract')
       }
     } else {
-      errorMessage.value = response.message || '登录失败'
+      errorMessage.value = response.data.message || '登录失败'
     }
   } catch (error) {
     errorMessage.value = error.response?.data?.message || '服务器连接失败'

@@ -8,11 +8,11 @@ const drawer = ref(false)
 
 // 初始化时获取数据，赋值给 store
 onMounted(() => {
-  axiosInstance.get('/contracts').then((response) => {
-    if (Array.isArray(response.data)) {
-      useContract.contracts = response.data
+  axiosInstance.get('/contract/detail').then((response) => {
+    if (Array.isArray(response.data.data)) {
+      useContract.contracts = response.data.data
     } else {
-      console.error('接口返回的不是数组:', response.data)
+      console.error('接口返回的不是数组:', response.data.data)
       useContract.contracts = []
     }
   }).catch(err => {

@@ -37,9 +37,9 @@ const successMessage = ref('')
 const fetchUsers = async () => {
   try {
      await axiosInstance.get('/user').then((response)=> {
-      if (Array.isArray(response.data)) {
-        console.log(response)
-        userStore.users = response.data
+      if (Array.isArray(response.data.data)) {
+        console.log(response.data)
+        userStore.users = response.data.data
         console.log(userStore.users)
       } else {
         console.error('接口返回的不是数组:', response.data)

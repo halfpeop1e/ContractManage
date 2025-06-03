@@ -15,11 +15,10 @@ const register = async () => {
     errorMessage.value = '两次输入的密码不一致'
     return
   }
-    const response = await axios.post('https://m1.apifoxmock.com/m1/6167810-5859931-default/register', {
+    const response = await axios.post('http://localhost:4545/user/register', {
       username: username.value,
       email: email.value,
-      password: password.value,
-      role: 'newuser'
+      password: password.value
     })
 
     if (response.status === 200) {
