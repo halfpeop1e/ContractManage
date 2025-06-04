@@ -28,9 +28,16 @@ const submitApproval = async () => {
     return
   }
   try {
-    await axios.post(`/api/contracts/approve`, {
-      approvetime:getCurrentTime(),
+    await axios.post(`http://localhost:4545/contract/approve`, {
+      // approvetime:getCurrentTime(),
+      code: selectedContract.value.code,
+      approvalResult: approvalResult.value,
       approvalComment: approvalComment.value
+    },{
+      headers: {
+      'Content-Type': 'application/json', // 默认请求头
+       'Authorization': localStorage.getItem('token') || ''
+    },
     })
     
     successMessage.value = approvalResult.value === 'approve' 

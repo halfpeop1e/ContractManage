@@ -27,14 +27,14 @@ const submitSignInfo = async () => {
   }
   
  try{ // 模拟提交 
-     await axiosInstance.post('/api/contracts/sign', {
+     await axiosInstance.post('/contract/sign', {
       code: selectedContract.value.code,
       signtime: signDate.value,
       signlocation: signLocation.value,
       ourrepresentative:companyRepresentative.value,
       customerrepresentative: customerRepresentative.value,
       remarks: remarks.value,
-      status: '已签订'
+      // status: '已签订'
     })
   successMessage.value = '合同签订信息已记录，合同流程完成'
   
