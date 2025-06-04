@@ -13,10 +13,10 @@ export const useContractStore = defineStore('contract', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axiosInstance.get('/contracts', {
+      const response = await axiosInstance.get('/contract/detail', {
         params: status ? { status } : {}
       })
-      contracts.value = response.data
+      contracts.value = response.data.data
     } catch (err: any) {
       error.value = err.message || '获取合同失败'
     } finally {
@@ -36,8 +36,8 @@ export const useContractStore = defineStore('contract', () => {
     if (signer) params.signer = signer
   
     try {
-      const response = await axiosInstance.get('/contracts-process', { params })
-      contractsprocess.value = response.data
+      const response = await axiosInstance.get('/contract/process', { params })
+      contractsprocess.value = response.data.data
     } catch (err: any) {
       error.value = err.message || '获取合同流程失败'
     } finally {

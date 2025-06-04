@@ -56,7 +56,7 @@ const submitForm = async () => {
 
     try {
       isLoading.value = true
-      const response = await axiosInstance.post('/draft', formData, {
+      const response = await axiosInstance.post('/contract/draft', formData, {
         headers: { 'Content-Type': 'multipart/form-data',
           'Authorization': localStorage.getItem('token') || ''
          }

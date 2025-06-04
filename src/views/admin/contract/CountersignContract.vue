@@ -48,11 +48,11 @@ const submitOpinion = async () => {
     return
   }
   try {
-    await axiosInstance.post('/api/contracts/countersign', {
+    await axiosInstance.post('/contract/countersign', {
       code: selectedContract.value.code,
-      cosigntime:getCurrentTime(),
+      // cosigntime:getCurrentTime(),
       cosigncontent: opinion.value,
-      status: '待定稿'
+      // status: '待定稿'
     })
     
     successMessage.value = '会签意见提交成功'
