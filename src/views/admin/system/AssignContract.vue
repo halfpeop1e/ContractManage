@@ -125,7 +125,7 @@ const submitAssignment = async () => {
   };
   const field = fieldMap[selectedStage.value];
 console.log('分配成功:', selectedContract.value!.code, '给用户:', selectedUser.name,'阶段:', selectedStage.value);
-  await axiosInstance.post('/contracts/assign', {
+  await axiosInstance.post('/contract/assign', {
     code: selectedContract.value!.code,
     [field]: selectedUser.name
   });
