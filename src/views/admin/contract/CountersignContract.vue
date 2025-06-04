@@ -65,7 +65,7 @@ const submitOpinion = async () => {
       successMessage.value = ''
     }, 2000)
   } catch (error) {
-    alert(error.response?.data || '提交失败')
+    alert(error.response?.data.message || '提交失败')
   }
 }
 
