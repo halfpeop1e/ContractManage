@@ -36,7 +36,7 @@ const successMessage = ref('')
 // 获取用户列表
 const fetchUsers = async () => {
   try {
-     await axiosInstance.get('/user').then((response)=> {
+     await axiosInstance.get('/user/alldetail').then((response)=> {
       if (Array.isArray(response.data.data)) {
         console.log(response.data)
         userStore.users = response.data.data

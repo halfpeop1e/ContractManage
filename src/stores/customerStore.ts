@@ -8,8 +8,8 @@ export const useCustomerStore = defineStore('customer', () => {
   const error = ref<string | null>(null)
   const fetchCustomers = async () => {
     try {
-      const response = await axiosInstance.get('/customers')
-      customers.value = response.data
+      const response = await axiosInstance.get('/customer/detail')
+      customers.value = response.data.data
     } catch (err: any) {
       error.value = err.message || '获取合同失败'
     } finally {

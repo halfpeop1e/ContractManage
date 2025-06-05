@@ -49,7 +49,7 @@ const addCustomer =  async ()  => {
   // 模拟添加客户
    try {
     // 发送 POST 请求到后端
-    const response = await axiosInstance.post('/add-customers', newCustomer.value)
+    const response = await axiosInstance.post('/customer/add', newCustomer.value)
 
     if (response.data && response.data.success) {
       successMessage.value = '客户信息添加成功'
@@ -82,7 +82,7 @@ const deleteCustomer = async () => {
   if (!confirm('确定要删除该客户吗？')) return
   const code = editCustomer.value.code
   try {
-    const response = await axiosInstance.delete(`/customers/${code}`)
+    const response = await axiosInstance.delete(`/customer/${code}`)
     if (response.status === 200) {
       alert('客户删除成功')
       await CustomerStore.fetchCustomers() // 重新拉取客户列表
@@ -97,7 +97,7 @@ const deleteCustomer = async () => {
 const saveEdit = async () => {
   try {
     const code = editCustomer.value.code
-    const response = await axiosInstance.put(`/customers/${code}`, editCustomer.value)
+    const response = await axiosInstance.put(`/customer/${code}`, editCustomer.value)
 
     if (response.status === 200) {
       // 更新本地数据
