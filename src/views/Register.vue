@@ -15,10 +15,10 @@ const register = async () => {
     errorMessage.value = '两次输入的密码不一致'
     return
   }
-    const response = await axios.post('http://localhost:4545/user/register', {
+    const response = await axios.post('http://120.46.66.184:4540/user/register', {
       username: username.value,
       email: email.value,
-      password: password.value
+      password: password.value,
     })
 
     if (response.status === 200) {

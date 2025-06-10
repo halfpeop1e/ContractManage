@@ -8,7 +8,7 @@ const selectedContract = ref(null)
 const approvalResult = ref('approve')
 const approvalComment = ref('')
 const successMessage = ref('')
-
+const attachmentUrl = ref('http://localhost:8080/files/xxx.docx') // 替换为实际数据
 // 获取当前用户ID（根据你的实际实现调整）
 const currentUserId = ref(localStorage.getItem('userId') || 1)
 console.log('当前用户ID:', currentUserId.value)
@@ -136,7 +136,12 @@ const filteredContractsByApprover = computed(() => {
           <p>{{ selectedContract.content}}</p>
         </div>
       </div>
-      
+      <el-card>
+         <template #header>附件下载</template>
+         <a :href="selectedContract.fileUrl" target="_blank" download>
+            点击下载附件
+        </a>
+      </el-card>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2">
           审批结果 <span class="text-red-500">*</span>

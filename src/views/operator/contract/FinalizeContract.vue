@@ -59,7 +59,7 @@ const mergedContracts = computed(() => {
   })
 })
 const filteredContractsByFinalizer = computed(() => {
-  return mergedContracts.value.filter(contract => contract.finalizer === currentUserId.value)
+  return mergedContracts.value.filter(contract => contract.finalizer === userId)
 })
 </script>
 

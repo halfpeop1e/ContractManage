@@ -10,6 +10,7 @@ const customerRepresentative = ref('')
 const companyRepresentative = ref('')
 const remarks = ref('')
 const successMessage = ref('')
+const userId = localStorage.getItem('userId')
 
 const viewContract = (contract) => {
   selectedContract.value = contract
@@ -73,8 +74,8 @@ const mergedContracts = computed(() => {
     }
   })
 })
-const filteredContractsByApprover = computed(() => {
-  return mergedContracts.value.filter(contract => contract.signer === currentUserId.value)
+const filteredContractsBySigner = computed(() => {
+  return mergedContracts.value.filter(contract => contract.signer === userId)
 })
 </script>
 
@@ -104,7 +105,7 @@ const filteredContractsByApprover = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="contract in mergedContracts" :key="contract.id">
+          <tr v-for="contract in filteredContractsBySigner" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>
             <td>{{ contract.approvalDate }}</td>

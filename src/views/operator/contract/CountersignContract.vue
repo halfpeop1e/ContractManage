@@ -92,7 +92,7 @@ const mergedContracts = computed(() => {
   })
 })
 const filteredContractsByCofigner = computed(() => {
-  return mergedContracts.value.filter(contract => contract.cosigner === currentUserId.value)
+  return mergedContracts.value.filter(contract => contract.cosigner === userId)
 })
 </script>
 
@@ -122,7 +122,7 @@ const filteredContractsByCofigner = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="contract in mergedContracts" :key="contract.id">
+          <tr v-for="contract in filteredContractsByCofigner" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>
             <td>{{ contract.createdAt }}</td>

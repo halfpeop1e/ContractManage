@@ -9,7 +9,7 @@ const opinion = ref('')
 const successMessage = ref('')
 const userId = localStorage.getItem('userId')
 const contracts = ref([])
-
+const attachmentUrl = ref('http://localhost:8080/files/xxx.docx') // 替换为实际数据
 // 检查用户是否已会签该合同
 const hasCountersigned = (contract) => {
   if (!contract.countersignComments) return false
@@ -125,8 +125,8 @@ const filteredContractsByCofigner = computed(() => {
           <tr v-for="contract in mergedContracts" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>
-            <td>{{ contract.createdAt }}</td>
-            <td>{{ contract.creatorName }}</td>
+            <td>{{ contract.drafttime }}</td>
+            <td>{{ contract.drafter }}</td>
             <td>
               <button @click="viewContract(contract)" class="btn btn-secondary">会签</button>
             </td>
@@ -151,7 +151,12 @@ const filteredContractsByCofigner = computed(() => {
           <p>{{ selectedContract.content }}</p>
         </div>
       </div>
-      
+      <el-card>
+         <template #header>附件下载</template>
+         <a :href="selectedContract.fileUrl" target="_blank" download>
+            点击下载附件
+        </a>
+      </el-card>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="opinion">
           会签意见 <span class="text-red-500">*</span>

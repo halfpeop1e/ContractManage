@@ -14,20 +14,31 @@ const viewContract = (contract) => {
   selectedContract.value = contract
   updatedContent.value = contract.content
 }
-
+const handleUploadChange = (uploadFile) => {
+  file.value = uploadFile.raw
+}
 const finalizeContract = async () => {
   if (!updatedContent.value) {
     alert('请填写修改后的合同内容')
     return
   }
-  
+  const formData = new FormData()
+formData.append('code', selectedContract.value.code)
+formData.append('content', updatedContent.value)
+
+// 可选：添加时间、状态等字段
+formData.append('finalizetime', getCurrentTime())
+formData.append('status', '待签订')
+ if (file.value) {
+      formData.append('file', file.value)
+    }
   try {
-    await axiosInstance.post('/contract/final', {
-      code: selectedContract.value.code,
-      content: updatedContent.value,//这个改的是contrct中的content
-      // finalizetime: getCurrentTime(),
-      // status: '待签订',
-    })
+    
+await axiosInstance.post('/contract/final', formData, {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+})
     
     successMessage.value = '合同定稿成功'
     
@@ -92,8 +103,8 @@ const filteredContractsByFinalizer = computed(() => {
           <tr v-for="contract in mergedContracts" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>
-            <td>{{ contract.beginDate}}</td>
-            <td>{{ contract.creatorName }}</td>
+            <td>{{ contract.drafttime}}</td>
+            <td>{{ contract.drafter }}</td>
             <td>
               <button @click="viewContract(contract)" class="btn btn-secondary">定稿</button>
             </td>
@@ -136,7 +147,20 @@ const filteredContractsByFinalizer = computed(() => {
           required
         ></textarea>
       </div>
-      
+      <el-form-item label="附件上传">
+        <el-upload
+          accept=".doc,.docx,.jpg,.jpeg,.png,.bmp,.gif"
+          :show-file-list="true"
+          :limit="1"
+          :auto-upload="false"
+          :on-change="handleUploadChange"
+        >
+          <el-button type="primary">选择文件</el-button>
+          <template #tip>
+            <div class="el-upload__tip">支持格式：doc, jpg, jpeg, png, bmp, gif</div>
+          </template>
+        </el-upload>
+      </el-form-item>
       <div class="flex justify-between">
         <button @click="selectedContract = null" class="btn btn-secondary">返回</button>
         <button @click="finalizeContract" class="btn btn-primary">提交定稿</button>

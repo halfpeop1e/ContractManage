@@ -107,7 +107,7 @@ const filteredContractsByApprover = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="contract in mergedContracts" :key="contract.id">
+          <tr v-for="contract in filteredContractsByApprover" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>           
             <td>{{ contract.finalizetime}}</td>

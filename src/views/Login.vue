@@ -10,7 +10,7 @@ const errorMessage = ref('')
 import axios from 'axios'
 const login = async () => {
   try {
-    const response = await axios.post('http://localhost:4545/user/login', {
+    const response = await axios.post('http://120.46.66.184:4540/user/login', {
       username: username.value,
       password: password.value
     })

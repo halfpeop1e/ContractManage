@@ -1,5 +1,4 @@
 export interface Contract {
-    id: number
     name: string
     code: string
     customer: string
@@ -7,6 +6,7 @@ export interface Contract {
     endDate: string
     status: string
     content?: string
+    fileUrl?: string //储存的是连接
     amount: number
   }
   

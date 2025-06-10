@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axiosInstance from '../../utils/getUser'
 const router = useRouter()
 const userStr = localStorage.getItem('user')
 const user = userStr ? JSON.parse(userStr) : null
 const Permission = user?.permission || {}
+console.log('用户权限:', Permission)
 // 模拟用户权限
-const userPermissions = ref(['draft', 'countersign', 'finalize', 'sign', 'query', 'approve'])
 // 模拟用户权限
 // 检查是否有权限
 const hasPermission = (permission) => {

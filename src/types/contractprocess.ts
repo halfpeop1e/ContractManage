@@ -8,6 +8,8 @@ export interface ContractProcess {
     cosigncontent?: string
     approver?: string
     approvetime?: string
+    approvalResult?: string
+    approvalComment?: string
     finalizer?: string
     finalizetime?: string
     signer?: string

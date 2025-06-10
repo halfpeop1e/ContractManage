@@ -2,25 +2,27 @@
 import { ref, onMounted, computed } from 'vue'
 import { useContractStore } from '../../stores/contractStore'
 import axiosInstance from '../../utils/getContract'
-
 const useContract = useContractStore()
 const drawer = ref(false)
 
 // 初始化时获取数据，赋值给 store
 onMounted(() => {
-  axiosInstance.get('/contract/detail').then((response) => {
-    if (Array.isArray(response.data.data)) {
-      useContract.contracts = response.data.data
-    } else {
-      console.error('接口返回的不是数组:', response.data.data)
-      useContract.contracts = []
+  useContract.fetchContracts()
+  useContract.fetchContractsprocess()
+})
+const mergedContracts = computed(() => {
+  const processMap = new Map(
+    useContract.contractsprocess.map(item => [item.code, item])
+  )
+
+  return useContract.contracts.map(contract => {
+    const process = processMap.get(contract.code)
+    return {
+      ...contract,
+      ...process  // 会合并 process 字段，如果有 code 和 status，则会覆盖 contract 中的值
     }
-  }).catch(err => {
-    console.error('请求失败:', err)
-    useContract.contracts = []
   })
 })
-
 const searchCode = ref('')
 const searchName = ref('')
 const searchCustomer = ref('')
@@ -194,7 +196,7 @@ const viewProcess = (contract) => {
       
         <el-timeline style="max-width: 600px">
     <el-timeline-item
-      v-for="(item, index) in contractProcess"
+      v-for="(item, index) in useContract.contractsprocess"
       :key="index"
       :timestamp="item.date"
       placement="top"
