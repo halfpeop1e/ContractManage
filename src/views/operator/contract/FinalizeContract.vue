@@ -25,8 +25,8 @@ const finalizeContract = async () => {
     await axiosInstance.post('/contract/final', {
       code: selectedContract.value.code,
       content: updatedContent.value,//这个改的是contrct中的content
-      // finalizetime: getCurrentTime(),
-      // status: '待签订',
+      finalizetime: getCurrentTime(),
+      status: '待签订',
     })
     
     successMessage.value = '合同定稿成功'
