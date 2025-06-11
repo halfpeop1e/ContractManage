@@ -49,14 +49,28 @@ const resetSearch = () => {
 
 // 模拟流程数据
 const selectedContract = ref(null)
-const contractProcess = ref([
-  { stage: '起草', date: '2023-05-10', operator: '张三', status: '完成' },
-  { stage: '会签', date: '2023-05-13', operator: '李四,王五', status: '完成' },
-  { stage: '定稿', date: '2023-05-15', operator: '张三', status: '完成' },
-  { stage: '审批', date: '2023-05-18', operator: '赵六', status: '完成' },
-  { stage: '签订', date: '2023-05-20', operator: '张三', status: '完成' }
-])
+const contractTimeline = computed(() => {
+  const c = selectedContract.value
+  const timeline = []
 
+  if (c.drafter && c.drafttime) {
+    timeline.push({ stage: '起草', date: c.drafttime, operator: c.drafter, status: '完成' })
+  }
+  if (c.cosigner && c.cosigntime) {
+    timeline.push({ stage: '会签', date: c.cosigntime, operator: c.cosigner, status: '完成' })
+  }
+  if (c.finalizer && c.finalizetime) {
+    timeline.push({ stage: '定稿', date: c.finalizetime, operator: c.finalizer, status: '完成' })
+  }
+  if (c.approver && c.approvetime) {
+    timeline.push({ stage: '审批', date: c.approvetime, operator: c.approver, status: '完成' })
+  }
+  if (c.signer && c.signtime) {
+    timeline.push({ stage: '签订', date: c.signtime, operator: c.signer, status: '完成' })
+  }
+
+  return timeline
+})
 const viewProcess = (contract) => {
   selectedContract.value = contract
 }
@@ -196,7 +210,7 @@ const viewProcess = (contract) => {
       
         <el-timeline style="max-width: 600px">
     <el-timeline-item
-      v-for="(item, index) in useContract.contractsprocess"
+      v-for="(item, index) in contractTimeline"
       :key="index"
       :timestamp="item.date"
       placement="top"

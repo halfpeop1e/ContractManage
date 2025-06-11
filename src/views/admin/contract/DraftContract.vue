@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import axiosInstance from '../../../utils/addDraft'
+import { get } from 'http'
 
 const contractName = ref('')
 const customerName = ref('')
@@ -43,12 +44,13 @@ const submitForm = async () => {
     const creatorId = localStorage.getItem('userId')
     const formData = new FormData()
     //合同的code由后端生成
-    formData.append('contractname', contractName.value)
+    formData.append('name', contractName.value)
     formData.append('customername', customerName.value)
     formData.append('starttime', startDate.value)
     formData.append('endtime', endDate.value)
     formData.append('content', content.value)
     formData.append('drafter', creatorId)
+    formData.append('drafttime', getCurrentTime())
     formData.append('status', '待会签') 
     if (file.value) {
       formData.append('file', file.value)
