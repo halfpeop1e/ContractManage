@@ -35,7 +35,7 @@ const submitSignInfo = async () => {
       ourrepresentative:companyRepresentative.value,
       customerrepresentative: customerRepresentative.value,
       remarks: remarks.value,
-      status: '已签订'
+      // status: '已签订'
     })
   successMessage.value = '合同签订信息已记录，合同流程完成'
   

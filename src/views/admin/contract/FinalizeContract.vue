@@ -9,6 +9,7 @@ const selectedContract = ref(null)
 const updatedContent = ref('')
 const successMessage = ref('')
 const userId = localStorage.getItem('userId')
+const file = ref(null)
 
 const viewContract = (contract) => {
   selectedContract.value = contract
@@ -27,8 +28,8 @@ formData.append('code', selectedContract.value.code)
 formData.append('content', updatedContent.value)
 
 // 可选：添加时间、状态等字段
-formData.append('finalizetime', getCurrentTime())
-formData.append('status', '待签订')
+// formData.append('finalizetime', getCurrentTime())
+// formData.append('status', '待签订')
  if (file.value) {
       formData.append('file', file.value)
     }
@@ -36,7 +37,8 @@ formData.append('status', '待签订')
     
 await axiosInstance.post('/contract/final', formData, {
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'Authorization': localStorage.getItem('token') || ''
   }
 })
     
