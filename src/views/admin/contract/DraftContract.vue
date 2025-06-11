@@ -48,8 +48,8 @@ const submitForm = async () => {
     formData.append('starttime', startDate.value)
     formData.append('endtime', endDate.value)
     formData.append('content', content.value)
-    // formData.append('drafter', creatorId)
-    // formData.append('status', '待会签') 
+    formData.append('drafter', creatorId)
+    formData.append('status', '待会签') 
     if (file.value) {
       formData.append('file', file.value)
     }
