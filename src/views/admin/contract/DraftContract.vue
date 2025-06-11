@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import axiosInstance from '../../../utils/addDraft'
-import { get } from 'http'
 
 const contractName = ref('')
 const customerName = ref('')
