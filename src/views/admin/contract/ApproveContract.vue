@@ -28,8 +28,8 @@ const submitApproval = async () => {
     return
   }
   try {
-    await axios.post(`http://localhost:4545/contract/approve`, {
-      approvetime:getCurrentTime(),
+    await axios.post(`http://120.46.66.184:4540/contract/approve`, {
+      // approvetime:getCurrentTime(),
       code: selectedContract.value.code,
       approvalResult: approvalResult.value,
       approvalComment: approvalComment.value

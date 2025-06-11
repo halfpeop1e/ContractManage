@@ -43,13 +43,13 @@ const submitForm = async () => {
     const creatorId = localStorage.getItem('userId')
     const formData = new FormData()
     //合同的code由后端生成
-    formData.append('name', contractName.value)
+    formData.append('contractname', contractName.value)
     formData.append('customer', customerName.value)
     formData.append('beginDate', startDate.value)
     formData.append('endDate', endDate.value)
-    formData.append('content', content.value)
-    formData.append('drafter', creatorId)
-    formData.append('status', '待会签') 
+    // formData.append('content', content.value)
+    // formData.append('drafter', creatorId)
+    // formData.append('status', '待会签') 
     if (file.value) {
       formData.append('file', file.value)
     }
