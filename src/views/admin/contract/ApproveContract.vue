@@ -8,7 +8,7 @@ const selectedContract = ref(null)
 const approvalResult = ref('approve')
 const approvalComment = ref('')
 const successMessage = ref('')
-const attachmentUrl = ref('http://localhost:8080/files/xxx.docx') // 替换为实际数据
+
 // 获取当前用户ID（根据你的实际实现调整）
 const currentUserId = ref(localStorage.getItem('userId') || 1)
 console.log('当前用户ID:', currentUserId.value)

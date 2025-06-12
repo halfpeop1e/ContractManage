@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref,onMounted } from 'vue'
 import {useCustomerStore} from '../../stores/customerStore'
 import axiosInstance from '../../utils/getCustomers'

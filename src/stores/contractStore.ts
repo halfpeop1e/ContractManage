@@ -13,8 +13,8 @@ export const useContractStore = defineStore('contract', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axiosInstance.get('/contract/detail', {
-        params: status ? { status } : {}
+      const response = await axiosInstance.post('/contract/detail', {
+       status: status || 'all'
       })
       contracts.value = response.data.data
     } catch (err: any) {
@@ -24,19 +24,14 @@ export const useContractStore = defineStore('contract', () => {
     }
   }
   const fetchContractsprocess = async (
-    status?: string,drafter?: string,cosigner?: string, approver?: string,finalizer?: string,signer?: string) => {
+    status?: string) => {
     loading.value = true
     error.value = null
-    const params: Record<string, string> = {}
-    if (status) params.status = status
-    if (drafter) params.drafter = drafter
-    if (cosigner) params.cosigner = cosigner
-    if (approver) params.approver = approver
-    if (finalizer) params.finalizer = finalizer
-    if (signer) params.signer = signer
   
     try {
-      const response = await axiosInstance.get('/contract/process', { params })
+      const response = await axiosInstance.post('/contract/process', {
+        status: status || 'all'
+      })
       contractsprocess.value = response.data.data
     } catch (err: any) {
       error.value = err.message || '获取合同流程失败'

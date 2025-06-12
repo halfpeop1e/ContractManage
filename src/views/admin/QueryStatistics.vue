@@ -4,11 +4,39 @@ import { useContractStore } from '../../stores/contractStore'
 import axiosInstance from '../../utils/getContract'
 const useContract = useContractStore()
 const drawer = ref(false)
+const selectedContract = {
+    name: '',
+  code: '',
+  customer: '',
+  beginDate: '',
+  endDate: '',
+  status: '',
+  content: '',
+  fileUrl: '',
+  amount: 0,
+  drafter: '',
+  drafttime: '',
+  cosigner: '',
+  cosigntime: '',
+  cosigncontent: '',
+  approver: '',
+  approvetime: '',
+  approvalResult: '',
+  approvalComment: '',
+  finalizer: '',
+  finalizetime: '',
+  signer: '',
+  signtime: '',
+  signlocation: '',
+  ourrepresentative: '',
+  customerrepresentative: '',
+  signremark: ''
+}
 
 // 初始化时获取数据，赋值给 store
 onMounted(() => {
-  useContract.fetchContracts()
-  useContract.fetchContractsprocess()
+  useContract.fetchContracts('all')
+  useContract.fetchContractsprocess('all')
 })
 const mergedContracts = computed(() => {
   const processMap = new Map(
@@ -30,7 +58,7 @@ const searchStatus = ref('')
 
 // 过滤用 useContract.contracts
 const filteredContracts = computed(() => {
-  return useContract.contracts.filter(contract => {
+  return mergedContracts.value.filter(contract => {
     return (
       (searchCode.value === '' || contract.code.toLowerCase().includes(searchCode.value.toLowerCase())) &&
       (searchName.value === '' || contract.name.toLowerCase().includes(searchName.value.toLowerCase())) &&
@@ -48,32 +76,40 @@ const resetSearch = () => {
 }
 
 // 模拟流程数据
-const selectedContract = ref(null)
 const contractTimeline = computed(() => {
+  
   const c = selectedContract.value
   const timeline = []
 
-  if (c.drafter && c.drafttime) {
-    timeline.push({ stage: '起草', date: c.drafttime, operator: c.drafter, status: '完成' })
+  if (c.drafter) {
+    timeline.push({ stage: '起草', date: c.drafttime, operator: c.drafter, status: c.drafttime ? '完成' : '未完成' })
   }
-  if (c.cosigner && c.cosigntime) {
-    timeline.push({ stage: '会签', date: c.cosigntime, operator: c.cosigner, status: '完成' })
+  if (c.cosigner ) {
+    timeline.push({ stage: '会签', date: c.cosigntime, content:c.cosigncontent,operator: c.cosigner, status: c.cosigntime ? '完成' : '未完成' })
   }
-  if (c.finalizer && c.finalizetime) {
-    timeline.push({ stage: '定稿', date: c.finalizetime, operator: c.finalizer, status: '完成' })
+  if (c.finalizer ) {
+    timeline.push({ stage: '定稿', date: c.finalizetime, operator: c.finalizer, status: c.finalizetime ? '完成' : '未完成' })
   }
-  if (c.approver && c.approvetime) {
-    timeline.push({ stage: '审批', date: c.approvetime, operator: c.approver, status: '完成' })
+  if (c.approver) {
+    timeline.push({ stage: '审批', date: c.approvetime, operator: c.approver, status: c.approvetime ? '完成' : '未完成' })
   }
-  if (c.signer && c.signtime) {
-    timeline.push({ stage: '签订', date: c.signtime, operator: c.signer, status: '完成' })
+  if (c.signer) {
+    timeline.push({ stage: '签订', date: c.signtime, operator: c.signer, status: c.signtime ? '完成' : '未完成' })
   }
-
   return timeline
 })
+
+const isclick = ref(false)
 const viewProcess = (contract) => {
   selectedContract.value = contract
+  console.log(selectedContract.value)
+  isclick.value = !isclick.value
 }
+const back=()=>{
+  isclick.value = false
+  selectedContract.value = null
+}
+
 </script>
 
 
@@ -81,7 +117,7 @@ const viewProcess = (contract) => {
   <div>
     <h2 class="text-2xl font-bold mb-6">查询统计</h2>
     
-    <div v-if="!selectedContract">
+    <div v-if="!isclick">
       <el-card class="flex">
         <el-text class="mx-1" size="large" type="primary">符合条件的合同数量: </el-text>
         <text class="text-xl font-bold mb-4">{{ filteredContracts.length }}</text>
@@ -197,13 +233,13 @@ const viewProcess = (contract) => {
       <h3 class="text-xl font-bold mb-4">合同流程查询</h3>
       
       <div class="mb-4">
-        <p><strong>合同编号：</strong>{{ selectedContract.code }}</p>
-        <p><strong>合同名称：</strong>{{ selectedContract.name }}</p>
-        <p><strong>客户名称：</strong>{{ selectedContract.customer }}</p>
-        <p><strong>合同状态：</strong>{{ selectedContract.status }}</p>
+        <p><strong>合同编号：</strong>{{ selectedContract.value.code }}</p>
+        <p><strong>合同名称：</strong>{{ selectedContract.value.name }}</p>
+        <p><strong>客户名称：</strong>{{ selectedContract.value.customer }}</p>
+        <p><strong>合同状态：</strong>{{ selectedContract.value.status }}</p>
       </div>
       <div>
-        <strong>合同详情:</strong>{{ selectedContract.content}}
+        <strong>合同详情:</strong>{{ selectedContract.value.content}}
       </div>
       <el-drawer v-model="drawer" title="I am the title" :with-header="false">
         <h1 class="font-bold mb-2">流程记录</h1>
@@ -219,6 +255,7 @@ const viewProcess = (contract) => {
         <h4>{{ item.stage }}</h4>
         <p>操作人：{{ item.operator }}</p>
         <p>状态：{{ item.status }}</p>
+        <p v-if="item.content">会签意见：{{ item.content }}</p>
       </el-card>
     </el-timeline-item>
   </el-timeline>
@@ -226,7 +263,7 @@ const viewProcess = (contract) => {
       
       
       <div class="mt-4">
-        <el-button @click="selectedContract = null" class="btn btn-secondary">返回</el-button>
+        <el-button @click=back() class="btn btn-secondary">返回</el-button>
         <el-button type="primary" style="margin-left: 16px" @click="drawer = true">查看流程</el-button>
       </div>
     </div>

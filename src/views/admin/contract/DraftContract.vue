@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import axiosInstance from '../../../utils/addDraft'
+import {useCustomerStore} from '../../../stores/customerStore'
+const customerStore = useCustomerStore()
 
 const contractName = ref('')
 const customerName = ref('')
@@ -85,6 +87,10 @@ const submitForm = async () => {
     }
   })
 }
+onMounted(() => {
+  customerStore.fetchCustomers()
+  console.log('客户数据:', customerStore.customers)
+})
 </script>
 
 <template>
@@ -103,7 +109,17 @@ const submitForm = async () => {
       </el-form-item>
 
       <el-form-item label="客户名称" prop="customerName">
-        <el-input v-model="customerName" placeholder="请输入客户名称" />
+         <el-select
+      v-model="customerName"
+      placeholder="Select"
+      style="width: 240px"
+    >
+      <el-option
+        v-for="item in customerStore.customers"
+        :key="item.name"
+        :value="item.name"
+      />
+    </el-select>
       </el-form-item>
 
       <el-form-item label="开始时间" prop="startDate">

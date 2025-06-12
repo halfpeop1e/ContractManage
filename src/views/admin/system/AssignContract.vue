@@ -53,19 +53,8 @@ const fetchAllUsers = async () => {
   }
 };
 
-onMounted(() => {
-  contractStore.fetchContracts();
-  contractStore.fetchContractsprocess();
-  fetchAllUsers();
-});
 
-const mergedContracts = computed(() => {
-  const processMap = new Map(contractStore.contractsprocess.map(item => [item.code, item]));
-  return contractStore.contracts.map(contract => ({
-    ...contract,
-    ...(processMap.get(contract.code) || {})
-  }));
-});
+
 
 const permissionMap = {
   countersign: 'countersign',
@@ -78,22 +67,6 @@ const hasPermission = (user: User, permission: string) => {
   return user.permission && user.permission[permission] === true;
 };
 
-const filteredContracts = computed(() => {
-  return mergedContracts.value.filter(contract => {
-    switch (selectedStage.value) {
-      case 'countersign':
-        return contract.status === '待会签' && contract.drafter && contract.drafttime && !contract.cosigner;
-      case 'finalize':
-        return contract.status === '待定稿' && contract.cosigner && contract.cosigntime && !contract.finalizer;
-      case 'approve':
-        return contract.status === '待审核' && contract.finalizer && contract.finalizetime && !contract.approver;
-      case 'sign':
-        return contract.status === '待签订' && contract.approver && contract.approvetime && !contract.signer;
-      default:
-        return false;
-    }
-  });
-});
 
 const assignmentDialogVisible = ref(false);
 const selectedContract = ref<contrctall | null>(null);
@@ -134,7 +107,44 @@ console.log('分配成功:', selectedContract.value!.code, '给用户:', selecte
   await contractStore.fetchContracts();
   await contractStore.fetchContractsprocess();
 };
+onMounted(() => {
+  contractStore.fetchContracts();
+  contractStore.fetchContractsprocess();
+  console.log('当前用户ID:', currentUserId.value);
+  console.log('合同数据:', contractStore.contracts);
+  console.log('合同流程数据:', contractStore.contractsprocess);
+  fetchAllUsers();
+});
+const mergedContracts = computed(() => {
+  if (!contractStore.contracts || !contractStore.contractsprocess) {
+    console.warn('合同或流程数据为空');
+    return [];
+  }
+  const processMap = new Map(contractStore.contractsprocess.map(item => [item.code, item]));
+  return contractStore.contracts.map(contract => ({
+    ...contract,
+    ...(processMap.get(contract.code) || {})
+  }));
+});
+console.log('合并后的合同数据:', mergedContracts.value);
 
+const filteredContracts = computed(() => {
+  return mergedContracts.value.filter(contract => {
+    switch (selectedStage.value) {
+      case 'countersign':
+        return contract.status === '待会签' && contract.drafter && contract.drafttime && !contract.cosigner;
+      case 'finalize':
+        return contract.status === '待定稿' && contract.cosigner && contract.cosigntime && !contract.finalizer;
+      case 'approve':
+        return contract.status === '待审核' && contract.finalizer && contract.finalizetime && !contract.approver;
+      case 'sign':
+        return contract.status === '待签订' && contract.approver && contract.approvetime && !contract.signer;
+      default:
+        return false;
+    }
+  });
+});
+console.log('筛选后的合同数据:', filteredContracts.value); 
 </script>
 
 <template>

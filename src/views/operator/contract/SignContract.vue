@@ -10,7 +10,6 @@ const customerRepresentative = ref('')
 const companyRepresentative = ref('')
 const remarks = ref('')
 const successMessage = ref('')
-const userId = localStorage.getItem('userId')
 
 const viewContract = (contract) => {
   selectedContract.value = contract
@@ -27,7 +26,7 @@ const submitSignInfo = async () => {
     return
   }
   
- try{ 
+ try{ // 模拟提交 
      await axiosInstance.post('/contract/sign', {
       code: selectedContract.value.code,
       signtime: signDate.value,
@@ -75,7 +74,7 @@ const mergedContracts = computed(() => {
   })
 })
 const filteredContractsBySigner = computed(() => {
-  return mergedContracts.value.filter(contract => contract.signer === userId)
+  return mergedContracts.value.filter(contract => contract.signer === currentUserId.value)
 })
 </script>
 
@@ -108,7 +107,7 @@ const filteredContractsBySigner = computed(() => {
           <tr v-for="contract in filteredContractsBySigner" :key="contract.id">
             <td>{{ contract.name }}</td>
             <td>{{ contract.customer }}</td>
-            <td>{{ contract.approvalDate }}</td>
+            <td>{{ contract.approvetime }}</td>
             <td>{{ contract.approver }}</td>
             <td>
               <button @click="viewContract(contract)" class="btn btn-secondary">签订</button>
