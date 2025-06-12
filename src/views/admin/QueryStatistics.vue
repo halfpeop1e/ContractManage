@@ -109,7 +109,22 @@ const back=()=>{
   isclick.value = false
   selectedContract.value = null
 }
-
+function contractdelete(contract) {
+  if (confirm(`确定要删除合同 ${contract.code} 吗？`)) {
+    axiosInstance.delete(`/contractdelete`, {
+      code: contract.code
+    })
+    .then(() => {
+      useContract.fetchContracts('all')
+      useContract.fetchContractsprocess('all')
+      alert('合同删除成功')
+    })
+    .catch(error => {
+      console.error('删除合同失败:', error)
+      alert('删除合同失败，请稍后重试')
+    })
+  }
+}
 </script>
 
 
@@ -221,7 +236,7 @@ const back=()=>{
               <td>{{ contract.amount.toLocaleString() }}元</td>
               <td class="flex">
                 <el-button @click="viewProcess(contract)" class="btn btn-secondary">查看详情</el-button>
-                <el-button type="danger" @click="delete" >删除</el-button>
+                <el-button type="danger" @click="contractdelete(contract)" >删除</el-button>
               </td>
             </tr>
           </tbody>

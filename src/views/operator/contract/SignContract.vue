@@ -10,7 +10,7 @@ const customerRepresentative = ref('')
 const companyRepresentative = ref('')
 const remarks = ref('')
 const successMessage = ref('')
-
+const userId = localStorage.getItem('userId')
 const viewContract = (contract) => {
   selectedContract.value = contract
   signDate.value = new Date().toISOString().split('T')[0]
@@ -74,7 +74,7 @@ const mergedContracts = computed(() => {
   })
 })
 const filteredContractsBySigner = computed(() => {
-  return mergedContracts.value.filter(contract => contract.signer === currentUserId.value)
+  return mergedContracts.value.filter(contract => contract.signer ===userId)
 })
 </script>
 

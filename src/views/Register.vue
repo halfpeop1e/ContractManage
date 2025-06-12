@@ -10,11 +10,13 @@ const email = ref('')
 const role = ref('')
 const errorMessage = ref('')
 
+
 const register = async () => {
   if (password.value !== confirmPassword.value) {
     errorMessage.value = '两次输入的密码不一致'
     return
   }
+   setTimeout(() => {}, 100) // 模拟延时
     const response = await axios.post('http://120.46.66.184:4540/user/register', {
       username: username.value,
       email: email.value,
@@ -28,7 +30,6 @@ const register = async () => {
     }
   
 }
-
 const goToLogin = () => {
   router.push('/login')
 }
