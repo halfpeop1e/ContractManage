@@ -221,7 +221,6 @@ const back=()=>{
               <td>{{ contract.amount.toLocaleString() }}元</td>
               <td class="flex">
                 <el-button @click="viewProcess(contract)" class="btn btn-secondary">查看详情</el-button>
-                <el-button type="danger" @click="delete" >删除</el-button>
               </td>
             </tr>
           </tbody>

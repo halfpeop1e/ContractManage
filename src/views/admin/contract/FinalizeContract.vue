@@ -121,8 +121,9 @@ const filteredContractsByFinalizer = computed(() => {
       <div class="mb-4">
         <p><strong>合同名称：</strong>{{ selectedContract.name }}</p>
         <p><strong>客户名称：</strong>{{ selectedContract.customer }}</p>
-        <p><strong>起草日期：</strong>{{ selectedContract.createdAt }}</p>
-        <p><strong>起草人：</strong>{{ selectedContract.creatorName }}</p>
+        <p><strong>起草日期：</strong>{{ selectedContract.drafttime }}</p>
+        <p><strong>起草人：</strong>{{ selectedContract.drafter }}</p>
+        <p><strong>会签意见：</strong>{{ selectedContract.cosigncontent }}</p>
       </div>
       
       <div class="mb-4" v-if="selectedContract.countersignComments">

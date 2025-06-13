@@ -1,32 +1,41 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axiosInstance from '../../utils/getUser'
+import { useContractStore } from '../../stores/contractStore'
 const router = useRouter()
 const userStr = localStorage.getItem('user')
 const user = userStr ? JSON.parse(userStr) : null
 const Permission = user?.permission || {}
 console.log('用户权限:', Permission)
-// 模拟用户权限
+const contract= useContractStore()
+const userId = localStorage.getItem('userId')
 // 模拟用户权限
 // 检查是否有权限
 const hasPermission = (permission) => {
   return Permission[permission] === true
 }
-
+const one = computed(() => {
+  return contract.contractsprocess.filter(contract => contract.cosigner === userId)
+})
+const two = computed(() => {
+  return contract.contractsprocess.filter(contract => contract.finalizer === userId)
+})
+const three = computed(() => {
+  return contract.contractsprocess.filter(contract => contract.approver === userId)
+})
+const four = computed(() => {
+  return contract.contractsprocess.filter(contract => contract.signer === userId)
+})
 // 模拟待处理任务数量
 const taskCounts = ref({
-  draft: 0,
-  countersign: 2,
-  finalize: 1,
-  sign: 1,
-  approve: 2
+  countersign: one.value.length,
+  finalize: two.value.length,
+  sign: three.value.length,
+  approve: four.value.length
 })
 onMounted(() => {
-  // 在这里可以通过 API 获取实际的待处理任务数量
-  // 例如：axios.get('/api/tasks/counts').then(response => taskCounts.value = response.data)
-
-
+contract.fetchContractsprocess()
 })
 </script>
 

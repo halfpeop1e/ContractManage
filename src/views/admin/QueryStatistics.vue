@@ -111,7 +111,7 @@ const back=()=>{
 }
 function contractdelete(contract) {
   if (confirm(`确定要删除合同 ${contract.code} 吗？`)) {
-    axiosInstance.delete(`/contractdelete`, {
+    axiosInstance.post(`/contract/delete`, {
       code: contract.code
     })
     .then(() => {

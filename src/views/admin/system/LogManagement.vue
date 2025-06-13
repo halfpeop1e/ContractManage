@@ -5,59 +5,53 @@ import { ref } from 'vue'
 const logs = ref([
   { 
     id: 1, 
-    username: '张三', 
+    username: '111', 
     action: '起草合同', 
     details: '起草了合同：软件开发合同A', 
-    timestamp: '2023-05-10 10:15:30',
-    ip: '192.168.1.101'
+    timestamp: '2025-06-10 10:15:30',
   },
   { 
     id: 2, 
-    username: '李四', 
+    username: 'halfpeople', 
     action: '会签合同', 
     details: '对合同：软件开发合同A 进行了会签', 
-    timestamp: '2023-05-12 14:22:45',
-    ip: '192.168.1.102'
+    timestamp: '2025-06-11 14:22:45',
   },
   { 
     id: 3, 
-    username: '王五', 
+    username: 'halfpeople', 
     action: '会签合同', 
     details: '对合同：软件开发合同A 进行了会签', 
-    timestamp: '2023-05-13 09:35:12',
-    ip: '192.168.1.103'
+    timestamp: '2025-06-12 09:35:12',
   },
   { 
     id: 4, 
-    username: '张三', 
+    username: 'Klukai', 
     action: '定稿合同', 
     details: '对合同：软件开发合同A 进行了定稿', 
-    timestamp: '2023-05-15 16:40:22',
-    ip: '192.168.1.101'
+    timestamp: '2025-06-12 16:40:22',
   },
   { 
     id: 5, 
-    username: '赵六', 
+    username: 'Klukai', 
     action: '审批合同', 
     details: '审批通过了合同：软件开发合同A', 
-    timestamp: '2023-05-18 11:05:38',
-    ip: '192.168.1.104'
+    timestamp: '2025-06-12 17:05:38',
   },
   { 
     id: 6, 
-    username: '张三', 
+    username: 'Klukai', 
     action: '签订合同', 
     details: '记录了合同：软件开发合同A 的签订信息', 
-    timestamp: '2023-05-20 15:30:10',
-    ip: '192.168.1.101'
+    timestamp: '2025-06-13 00:03:10',
   },
   { 
     id: 7, 
-    username: '赵六', 
+    username: 'Klukai', 
     action: '权限管理', 
-    details: '将用户：钱七 的角色修改为：合同操作员', 
-    timestamp: '2023-05-21 10:12:55',
-    ip: '192.168.1.104'
+    details: '将用户：halfpeople 的角色修改为：合同操作员', 
+    timestamp: '2025-06-13 00:12:55',
+  
   }
 ])
 
@@ -98,8 +92,18 @@ const resetSearch = () => {
   searchEndDate.value = ''
 }
 
-const exportLogs = () => {
+const exportLogs = (logs) => {
   alert('日志导出功能已触发')
+  const dataStr = JSON.stringify(logs.value, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'logs.json';
+  link.click();
+
+  URL.revokeObjectURL(url);
 }
 
 const backupLogs = () => {
@@ -184,7 +188,7 @@ import { computed } from 'vue'
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold">日志列表</h3>
         <div>
-          <button @click="exportLogs" class="btn btn-secondary mr-2">导出日志</button>
+          <button @click="exportLogs(logs)" class="btn btn-secondary mr-2">导出日志</button>
           <button @click="backupLogs" class="btn btn-primary">备份日志</button>
         </div>
       </div>
@@ -201,7 +205,6 @@ import { computed } from 'vue'
             <th>操作类型</th>
             <th>操作详情</th>
             <th>操作时间</th>
-            <th>IP地址</th>
           </tr>
         </thead>
         <tbody>
@@ -211,7 +214,6 @@ import { computed } from 'vue'
             <td>{{ log.action }}</td>
             <td>{{ log.details }}</td>
             <td>{{ log.timestamp }}</td>
-            <td>{{ log.ip }}</td>
           </tr>
         </tbody>
       </table>

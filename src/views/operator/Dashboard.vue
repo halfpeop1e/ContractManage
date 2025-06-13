@@ -6,6 +6,7 @@ const router = useRouter()
 const user = ref(null)
 
 onMounted(() => {
+  
   const storedUser = localStorage.getItem('user')
   if (storedUser) {
     user.value = JSON.parse(storedUser)
