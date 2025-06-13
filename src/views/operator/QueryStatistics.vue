@@ -175,10 +175,10 @@ const back=()=>{
               class="form-control"
             >
               <option value="">全部</option>
-              <option value="起草中">起草中</option>
-              <option value="会签中">会签中</option>
-              <option value="定稿中">定稿中</option>
-              <option value="审批中">审批中</option>
+              <option value="待会签">待会签</option>
+              <option value="待定稿">待定稿</option>
+              <option value="待审核">待审核</option>
+              <option value="待签订">待签订</option>
               <option value="已签订">已签订</option>
             </select>
           </div>

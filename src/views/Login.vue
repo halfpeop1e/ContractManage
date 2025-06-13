@@ -48,7 +48,7 @@ const goToRegister = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 via-purple-400 to-indigo-300">
     <div class="backdrop-blur-xl bg-white/30 border border-white/50 rounded-xl shadow-lg p-10 w-full max-w-md animate-fade-in">
       <h1 class="text-3xl font-bold text-white text-center mb-6 drop-shadow">合同管理系统</h1>
 
